@@ -6,8 +6,8 @@ const Main = props => {
     const newsSections = props.headlines.map(headline => {
         return (
             <NewsCards 
-                id={headline.id}
-                name={headline.name} 
+                id={headline.source.id}
+                name={headline.source.name} 
                 title={headline.title}
                 author={headline.author}
                 description={headline.description}

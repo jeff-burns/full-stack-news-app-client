@@ -1,6 +1,8 @@
 import React from "react";
 
 import SourcesDropDown from '../SourcesDropDown/index';
+import FromDateDropDown from '../FromDateDropDown/index';
+import ToDateDropDown from '../ToDateDropDown/index';
 
 const Header = (props) => {
   return (
@@ -12,19 +14,16 @@ const Header = (props) => {
 
         <ul className="nav nav-tabs">
           <li className="nav-item dropdown show">
-          <SourcesDropDown sourcesArray={props.sources}/>
+            <SourcesDropDown sourcesArray={props.sources}/>
             
           </li>
           <li className="nav-item dropdown show">
-            <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="" role="button" aria-haspopup="true" aria-expanded="true">Dropdown</a>
-            <div className="dropdown-menu show" x-placement="bottom-start" >
-              <a className="dropdown-item" href="">Action</a>
-              <a className="dropdown-item" href="">Another action</a>
-              <a className="dropdown-item" href="">Something else here</a>
-              <div className="dropdown-divider"></div>
-              <a className="dropdown-item" href="">Separated link</a>
-            </div>
+            <FromDateDropDown byDateArray={props.byDate} />
           </li>
+          <li className="nav-item dropdown show">
+            <ToDateDropDown byDateArray={props.byDate} />
+          </li>
+          
         </ul>
       </nav>
     </header>
@@ -43,3 +42,12 @@ export default Header;
 // <div className="dropdown-divider"></div>
 // <a className="dropdown-item" href="">Separated link</a>
 // </div>
+
+// <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="" role="button" aria-haspopup="true" aria-expanded="true">Dropdown</a>
+//             <div className="dropdown-menu show" x-placement="bottom-start" >
+//               <a className="dropdown-item" href="">Action</a>
+//               <a className="dropdown-item" href="">Another action</a>
+//               <a className="dropdown-item" href="">Something else here</a>
+//               <div className="dropdown-divider"></div>
+//               <a className="dropdown-item" href="">Separated link</a>
+//             </div>
