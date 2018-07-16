@@ -2,7 +2,7 @@ import React from 'react';
 
 const NewsCards = props => {
     return (
-        <div className="card col-xs-12 col-sm-6 col-md-4">
+        <div className="card col-xs-12 col-sm-6 col-md-4" key={props.id} id={props.id}>
             <img className="card-img-top" src={props.urlToImage} alt={props.title}></img>
             <div className="card-body">
             <h5 className="card-title">{props.name}</h5>

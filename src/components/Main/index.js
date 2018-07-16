@@ -3,10 +3,10 @@ import React from 'react';
 import NewsCards from '../NewsCards/index';
 
 const Main = props => {
-    console.log(props.headlines)
     const newsSections = props.headlines.map(headline => {
         return (
             <NewsCards 
+                id={headline.id}
                 name={headline.name} 
                 title={headline.title}
                 author={headline.author}
