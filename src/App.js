@@ -16,12 +16,12 @@ class App extends Component {
 
 
 
-  async componentDidMount() {
-    const headlines = await API.getAll();
-    this.setState({
-      headlines
-    })
-
+  // async componentDidMount() {
+  //   const headlines = await API.getAll();
+  //   this.setState({
+  //     headlines
+  //   })
+    componentDidMount() {
     fetch('https://newsapi.org/v2/sources?apiKey=2bd37b6cc3c54f58bbe5401f25169824')
     .then(response => {
       return response.json();
@@ -31,6 +31,18 @@ class App extends Component {
       const array = resp.sources
         this.setState({
             sources: array
+        })        
+    });
+
+    fetch('https://newsapi.org/v2/top-headlines?country=us&apiKey=2bd37b6cc3c54f58bbe5401f25169824')
+    .then(response => {
+      return response.json();
+    })
+    .then(resp => {
+      console.log(resp);
+      const headlines = resp.articles
+        this.setState({
+            headlines: headlines
         })        
     });
   }
