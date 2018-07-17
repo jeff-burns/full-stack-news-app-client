@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import Header from './components/Header/index';
 import Main from './components/Main/index';
+import FromDateDropDown from './components/FromDateDropDown';
+
+var moment = require("moment");
 
 // import API from './library/API';
 
-//FETCH url  by sources/dates/keyphrase/numberperpage https://newsapi.org/v2/everything?pageSize=100&domains=bbc.co.uk, foxsports.com,espn.go.com&q="World Cup"&from=2018-06-15&to=2018-07-15&apiKey=2bd37b6cc3c54f58bbe5401f25169824
+//FETCH url  by sources/dates/keyphrase/numberperpage https://newsapi.org/v2/everything?pageSize=100&domains=bbc.co.uk,foxsports.com,espn.go.com&q="World Cup"&from=2018-06-15&to=2018-07-15&apiKey=2bd37b6cc3c54f58bbe5401f25169824
 
 class App extends Component {
   constructor(props) {
@@ -16,10 +19,7 @@ class App extends Component {
       byDate: []
     }
   }
-
-
-
-  // async componentDidMount() {
+// async componentDidMount() {
   //   const headlines = await API.getAll();
   //   this.setState({
   //     headlines
@@ -36,9 +36,6 @@ class App extends Component {
             sources: array
         })        
     });
-
-    fetch(`https://newsapi.org/v2/everything?q="World Cup"&from=2018-06-15&to=2018-07-15&apiKey=2bd37b6cc3c54f58bbe5401f25169824`)
-
     fetch('https://newsapi.org/v2/top-headlines?country=us&apiKey=2bd37b6cc3c54f58bbe5401f25169824')
     .then(response => {
       return response.json();
@@ -50,15 +47,30 @@ class App extends Component {
             headlines: headlines
         })        
     });
+
+    handleSubmit(event) {
+      event.preventDefault();
+      const keywords = event.target.input.value
+      const fromDate = event.target.("fromDate").value
+      const toDate = event.target.("toDate").value
+      const source = event.target.("source").value 
+
+      if() {
+        fetch(`https://newsapi.org/v2/everything?q="World Cup"&from=2018-06-15&to=2018-07-15&apiKey=2bd37b6cc3c54f58bbe5401f25169824`)
+      } else {
+  
+      }
+    }
+
   }
 
   render() {
     return (
       <div className="App">
         <Header sources={this.state.sources}
-                byDate={this.state.byDate}
         />
-        <Main headlines={this.state.headlines}/>
+        <Main headlines={this.state.headlines}
+        />
       </div>
     );
   }

@@ -18,12 +18,11 @@ const Header = (props) => {
             
           </li>
           <li className="nav-item dropdown show">
-            <FromDateDropDown byDateArray={props.byDate} />
+            <FromDateDropDown />
           </li>
           <li className="nav-item dropdown show">
-            <ToDateDropDown byDateArray={props.byDate} />
-          </li>
-          
+            <ToDateDropDown />
+          </li>         
         </ul>
       </nav>
     </header>

@@ -21,7 +21,7 @@ const FromDateDropDown = props => {
   return (
     <select className="custom-select options" id="fromDate">
       <option key={"pickFromDate"} value="">
-        (Optional) From Date
+        From Date (Optional) 
       </option>
       {options}
     </select>
