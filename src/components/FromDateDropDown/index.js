@@ -6,8 +6,8 @@ const FromDateDropDown = props => {
   
     const dateNow = moment();
     let datesArray = [];
-    for (let i = 0; i < 31; i++) {
-      let dateStr = dateNow.subtract(1, "d").format("MMM Do ddd");
+    for (let i = 0; i < 30; i++) {
+      let dateStr = dateNow.subtract(1, "d").format("YYYY-MM-DD");
       datesArray.push(dateStr);
     }
   
@@ -19,7 +19,7 @@ const FromDateDropDown = props => {
   ));
 
   return (
-    <select className="custom-select options" id="fromDate">
+    <select className="custom-select options" id="fromDate" >
       <option key={"pickFromDate"} value="">
         From Date (Optional) 
       </option>
