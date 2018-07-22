@@ -11,7 +11,7 @@ const SourcesDropDown = props => {
   return (
     <select className="custom-select options" id="source" >
       <option key={"pickSource"} value="">
-        Search by Source
+        Search by Source (Optional)
       </option>
       {options}
     </select>

@@ -5,19 +5,45 @@ import SourcesDropDown from '../SourcesDropDown/index';
 import FromDateDropDown from '../FromDateDropDown/index';
 import ToDateDropDown from '../ToDateDropDown/index';
 
-// const Header = (props) => {
 class Header extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      showPreview: false,
+      userName: "",
+      userSearches: [],
       headlines: [],
       sources: [],
       byDate: []
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    // this.handleAutoFill = this.handleAutoFill.bind(this);
   }
+
+  previewClick = () => {
+    this.setState({
+      showPreview: !this.state.showPreview
+    });
+  };
+
+  // handleAutoFill(resp) {
+  //   if (this.state.userBeingFilled === true) {
+  //     const user = this.state.userName;
+
+  //     fetch(`https://agile-thicket-79673.herokuapp.com/userinput/${user}`)
+  //       .then(response => {
+  //         return response.json();
+  //       })
+  //       .then(resp => {
+  //         console.log(resp);
+  //         let autoFillState = resp.user;
+  //         this.setState({ ...autoFillState });
+  //       });
+  //   }
+  // }
+
   componentDidMount() {
     fetch('https://newsapi.org/v2/sources?apiKey=2bd37b6cc3c54f58bbe5401f25169824')
     .then(response => {
@@ -247,10 +273,39 @@ console.log(domainUrl, fromDate, toDate, keywords)
   render() {
     return (
       <div>
+      <button className="btn btn-outline-success" id="preview-toggle" type="submit" onClick={this.previewClick}>
+      Save Your Source/Keyword OR Get Your Previous Source(s)/Keyword(s)
+    </button>
+
+    {this.state.showPreview ? (
+      <div className="card text-white bg-primary mb-3" >
+      <div className="form-group">
+      <label htmlFor="search">User Name or Search Name To Save/Find</label>
+               
+      <input
+                  type="text"
+                  className="form-control"
+                  id="userName"
+                  name="userName"
+                  value={this.state.userName}
+                  placeholder="Ex: John Doe or BBC/World Cup"
+                  onChange={this.handleChange}
+                  // isbeingfilled={this.isbeingfilled}
+                ></input>
+      <button className="btn btn-outline-warning" id="autofill" type="submit" onClick={this.handleAutofill}>
+      Get Previous Search(es)
+      </button>
+    </div>
+          <div className="card-body">
+        <h4 className="card-title">Previous Searches</h4>
+        <p className="card-text">{ this.state.userSearches}</p>
+      </div>
+    </div>
+    ) : null}
       <header className="App-header">
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <a className="navbar-brand" href="">
-            NewSource
+            <h1>NewSource</h1>
           </a>
           <form onSubmit={ this.handleSubmit }>
             <ul className="nav nav-tabs">
@@ -273,12 +328,17 @@ console.log(domainUrl, fromDate, toDate, keywords)
               <li>  
                 <div className="form-group">
                   
-                  <input type="text" className="form-control" placeholder="Keywords... (Optional)" 
+                  <input type="text" className="form-control" placeholder="Keyword(s)... (Optional)" 
                   name="keywords" id="keywords" value={ this.state.keywords}
                   onChange= { this.handleChange}></input>
                 </div>
-              </li>      
+              </li> 
+
+              
+
             </ul>
+            
+
             <button id="submit-button"
             type="submit"
             className="btn btn-success btn-lg btn-block" onSubmit={ this.handleSubmit }>Run Your Search</button>
@@ -292,22 +352,5 @@ console.log(domainUrl, fromDate, toDate, keywords)
 }
 export default Header;
 
-// <div className="dropdown-menu show" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
 
-// <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="" role="button" aria-haspopup="true" aria-expanded="true">Dropdown</a>
-// <div className="dropdown-menu show" x-placement="bottom-start" >
-// <a className="dropdown-item" href="">Action</a>
-// <a className="dropdown-item" href="">Another action</a>
-// <a className="dropdown-item" href="">Something else here</a>
-// <div className="dropdown-divider"></div>
-// <a className="dropdown-item" href="">Separated link</a>
-// </div>
 
-// <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="" role="button" aria-haspopup="true" aria-expanded="true">Dropdown</a>
-//             <div className="dropdown-menu show" x-placement="bottom-start" >
-//               <a className="dropdown-item" href="">Action</a>
-//               <a className="dropdown-item" href="">Another action</a>
-//               <a className="dropdown-item" href="">Something else here</a>
-//               <div className="dropdown-divider"></div>
-//               <a className="dropdown-item" href="">Separated link</a>
-//             </div>
