@@ -60,6 +60,11 @@ class Header extends Component {
       sourceData,
       keywordsData
     });
+
+    //reset tables migrations seeds
+    // translte sourceData and keywordsData into
+    // {keywords, domainUrl}
+    // this.getSpecifiedSearch({ keywords, domainUrl });
   };
 
   componentDidMount() {
@@ -99,8 +104,32 @@ class Header extends Component {
     const domainUrl = source
       .replace(/^(?:https?:\/\/)?(?:www\.)?/i, "")
       .split("/")[0];
-    this.getSpecifiedSearch({ keywords, fromDate, toDate, domainUrl });
+    this.getSpecifiedSearchDoneWell({ keywords, fromDate, toDate, domainUrl });
   }
+
+  getSpecifiedSearchDoneWell = ({ domainUrl, fromDate, toDate, keywords }) => {
+    const url =
+      "https://newsapi.org/v2/everything?pageSize=30&apiKey=2bd37b6cc3c54f58bbe5401f25169824" +
+      (domainUrl ? `&domains=${domainUrl}` : "") +
+      (fromDate ? `&from=${fromDate}` : "") +
+      (toDate ? `&to=${toDate}` : "") +
+      (keywords ? `&q=${keywords}` : "");
+
+    fetch(url)
+      .then(response => response.json())
+      .then(resp => {
+        const headlines = resp.articles;
+        this.setState({
+          headlines: headlines
+        });
+      });
+  };
+  // handleUserSavedSearch = user => {
+  //   // 1) Get current user
+  //   // 2) Get previous search data from user,
+  //   //  which returns { keywords, fromDate, toDate, domainUrl }
+  //   this.getSpecifiedSearch({ keywords, domainUrl });
+  // };
 
   getSpecifiedSearch = ({ domainUrl, fromDate, toDate, keywords }) => {
     console.log(domainUrl, fromDate, toDate, keywords);
