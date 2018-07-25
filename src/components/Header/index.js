@@ -99,6 +99,10 @@ class Header extends Component {
     const domainUrl = source
       .replace(/^(?:https?:\/\/)?(?:www\.)?/i, "")
       .split("/")[0];
+    this.getSpecifiedSearch({ keywords, fromDate, toDate, domainUrl });
+  }
+
+  getSpecifiedSearch = ({ domainUrl, fromDate, toDate, keywords }) => {
     console.log(domainUrl, fromDate, toDate, keywords);
     if (keywords && fromDate && toDate && domainUrl) {
       fetch(
@@ -326,7 +330,7 @@ class Header extends Component {
           });
         });
     }
-  }
+  };
 
   render() {
     console.log(this.state);
