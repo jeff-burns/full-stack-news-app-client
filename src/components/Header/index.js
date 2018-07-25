@@ -52,50 +52,32 @@ class Header extends Component {
       });
   }
 
-  handleAutoFill(event) {
+  handleAutoFill = event => {
     event.preventDefault();
-    console.log(event.target);
     const sourceData = event.target.id;
     const keywordsData = event.target.name;
-    // const autoFillData = {
-    //   sourceData: event.target.id,
-    //   keywordsData: event.target.name
-    // }
-    const currentState = this.state;
     this.setState({
-      ...currentState,
-      sourceData: sourceData,
-      keywordsData: keywordsData
+      sourceData,
+      keywordsData
     });
-  }
+  };
 
   componentDidMount() {
-    fetch(
+    const fetchSources = fetch(
       "https://newsapi.org/v2/sources?apiKey=2bd37b6cc3c54f58bbe5401f25169824"
-    )
-      .then(response => {
-        return response.json();
-      })
-      .then(resp => {
-        // console.log(resp);
-        const array = resp.sources;
-        this.setState({
-          sources: array
-        });
-      });
-    fetch(
+    ).then(resp => resp.json());
+
+    const fetchHeadlines = fetch(
       "https://newsapi.org/v2/top-headlines?country=us&apiKey=2bd37b6cc3c54f58bbe5401f25169824"
-    )
-      .then(response => {
-        return response.json();
-      })
-      .then(resp => {
-        // console.log(resp);
-        const headlines = resp.articles;
-        this.setState({
-          headlines: headlines
-        });
-      });
+    ).then(resp => resp.json());
+
+    Promise.all([fetchSources, fetchHeadlines]).then(
+      ([sourcesResp, headlinesResp]) => {
+        const sources = sourcesResp.sources;
+        const headlines = headlinesResp.articles;
+        this.setState({ sources, headlines });
+      }
+    );
   }
 
   handleChange(event) {
