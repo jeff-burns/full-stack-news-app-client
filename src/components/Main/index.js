@@ -1,2 +1,2 @@
-import Main from './Main';
-export default Main;
+import Component from './Main';
+export default Component;

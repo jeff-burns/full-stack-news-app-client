@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 
 import Main from '../Main';
-import SourcesDropDown from '../SourcesDropDown/index';
-import FromDateDropDown from '../FromDateDropDown/index';
-import ToDateDropDown from '../ToDateDropDown/index';
-// import SearchesCards from "../SearchesCards/index";
+import SourcesDropDown from '../SourcesDropDown';
+import FromDateDropDown from '../FromDateDropDown';
+import ToDateDropDown from '../ToDateDropDown';
 
 export default class Header extends Component {
     constructor(props) {
@@ -168,6 +167,8 @@ export default class Header extends Component {
     // };
 
     render() {
+        const { headlines, sources } = this.props;
+
         console.log(this.state);
         const users = this.state.userSearches;
 
