@@ -4,12 +4,10 @@ import Main from "../Main/index";
 import SourcesDropDown from "../SourcesDropDown/index";
 import FromDateDropDown from "../FromDateDropDown/index";
 import ToDateDropDown from "../ToDateDropDown/index";
-// import SearchesCards from "../SearchesCards/index";
 
 class Header extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       showPreview: false,
       userName: "",
@@ -51,11 +49,8 @@ class Header extends Component {
         return response.json();
       })
       .then(resp => {
-       
         this.setState({
           userSearches: resp.user
-          // sourceData: resp.user.source,
-          // keywordsData: resp.user.keywords
         });
       });
   }
@@ -68,10 +63,6 @@ class Header extends Component {
       sourceData: domainUrl,
       keywordsData: keywords
     });
-
-    //reset tables migrations seeds
-    // translte sourceData and keywordsData into
-    // {keywords, domainUrl}
     this.getSpecifiedSearchDoneWell({ domainUrl, keywords });
   };
 
@@ -95,7 +86,6 @@ class Header extends Component {
 
   handleChange(event) {
     event.preventDefault();
-    // console.log()
     const value = event.target.value;
     const name = event.target.name;
     this.setState({
@@ -112,30 +102,27 @@ class Header extends Component {
     const domainUrl = source
       .replace(/^(?:https?:\/\/)?(?:www\.)?/i, "")
       .split("/")[0];
-    
-    const user = this.state.userName
+    const user = this.state.userName;
     const formData = {
       userName: user,
       source: source,
       domain: domainUrl,
       keywords: keywords
-    }
+    };
     if (this.state.userBeingFilled === true) {
-        fetch("https://jb-news-api.herokuapp.com/api/v1/userinput", {
-          method: "POST",
-          headers: new Headers({
-            "content-type": "application/json"
-          }),
-          body: JSON.stringify(formData)
+      fetch("https://jb-news-api.herokuapp.com/api/v1/userinput", {
+        method: "POST",
+        headers: new Headers({
+          "content-type": "application/json"
+        }),
+        body: JSON.stringify(formData)
+      })
+        .then(function(response) {
+          return response.json();
         })
-          .then(function(response) {
-            return response.json();
-          })
-          .then(function(response) {
-            console.log(response);
-          });
-      }
-
+        .then(function(response) {
+        });
+    }
     this.getSpecifiedSearchDoneWell({ keywords, fromDate, toDate, domainUrl });
   }
 
@@ -156,267 +143,29 @@ class Header extends Component {
         });
       });
   };
-  // handleUserSavedSearch = user => {
-  //   // 1) Get current user
-  //   // 2) Get previous search data from user,
-  //   //  which returns { keywords, fromDate, toDate, domainUrl }
-  //   this.getSpecifiedSearch({ keywords, domainUrl });
-  // };
-
-  // getSpecifiedSearch = ({ domainUrl, fromDate, toDate, keywords }) => {
-  //   console.log(domainUrl, fromDate, toDate, keywords);
-  //   if (keywords && fromDate && toDate && domainUrl) {
-  //     fetch(
-  //       `https://newsapi.org/v2/everything?pageSize=30&domains=${domainUrl}&q="${keywords}"&from=${fromDate}&to=${toDate}&apiKey=2bd37b6cc3c54f58bbe5401f25169824`
-  //     )
-  //       .then(response => {
-  //         return response.json();
-  //       })
-  //       .then(resp => {
-  //         console.log(resp);
-  //         const headlines = resp.articles;
-  //         this.setState({
-  //           headlines: headlines
-  //         });
-  //       });
-  //   }
-  //   if (keywords && fromDate && toDate && !domainUrl) {
-  //     fetch(
-  //       `https://newsapi.org/v2/everything?pageSize=30&q="${keywords}"&from=${fromDate}&to=${toDate}&apiKey=2bd37b6cc3c54f58bbe5401f25169824`
-  //     )
-  //       .then(response => {
-  //         return response.json();
-  //       })
-  //       .then(resp => {
-  //         console.log(resp);
-  //         const headlines = resp.articles;
-  //         this.setState({
-  //           headlines: headlines
-  //         });
-  //       });
-  //   }
-  //   if (keywords && fromDate && !domainUrl && !toDate) {
-  //     fetch(
-  //       `https://newsapi.org/v2/everything?pageSize=30&q="${keywords}"&from=${fromDate}&to=${fromDate}&apiKey=2bd37b6cc3c54f58bbe5401f25169824`
-  //     )
-  //       .then(response => {
-  //         return response.json();
-  //       })
-  //       .then(resp => {
-  //         console.log(resp);
-  //         const headlines = resp.articles;
-  //         this.setState({
-  //           headlines: headlines
-  //         });
-  //       });
-  //   }
-  //   if (keywords && !domainUrl && !toDate && !fromDate) {
-  //     fetch(
-  //       `https://newsapi.org/v2/everything?pageSize=30&q="${keywords}"&apiKey=2bd37b6cc3c54f58bbe5401f25169824`
-  //     )
-  //       .then(response => {
-  //         return response.json();
-  //       })
-  //       .then(resp => {
-  //         console.log(resp);
-  //         const headlines = resp.articles;
-  //         this.setState({
-  //           headlines: headlines
-  //         });
-  //       });
-  //   }
-  //   if (fromDate && toDate && domainUrl && !keywords) {
-  //     fetch(
-  //       `https://newsapi.org/v2/everything?pageSize=30&domains=${domainUrl}&from=${fromDate}&to=${toDate}&apiKey=2bd37b6cc3c54f58bbe5401f25169824`
-  //     )
-  //       .then(response => {
-  //         return response.json();
-  //       })
-  //       .then(resp => {
-  //         console.log(resp);
-  //         const headlines = resp.articles;
-  //         this.setState({
-  //           headlines: headlines
-  //         });
-  //       });
-  //   }
-  //   if (toDate && domainUrl && !fromDate && !keywords) {
-  //     fetch(
-  //       `https://newsapi.org/v2/everything?pageSize=30&domains=${domainUrl}&to=${toDate}&apiKey=2bd37b6cc3c54f58bbe5401f25169824`
-  //     )
-  //       .then(response => {
-  //         return response.json();
-  //       })
-  //       .then(resp => {
-  //         console.log(resp);
-  //         const headlines = resp.articles;
-  //         this.setState({
-  //           headlines: headlines
-  //         });
-  //       });
-  //   }
-  //   if (domainUrl && !keywords && !toDate && !fromDate) {
-  //     fetch(
-  //       `https://newsapi.org/v2/everything?pageSize=30&domains=${domainUrl}&apiKey=2bd37b6cc3c54f58bbe5401f25169824`
-  //     )
-  //       .then(response => {
-  //         return response.json();
-  //       })
-  //       .then(resp => {
-  //         console.log(resp.articles);
-  //         const headlines = resp.articles;
-
-  //         this.setState({
-  //           headlines: headlines
-  //         });
-  //       });
-  //   }
-  //   if (fromDate && toDate && !keywords && !domainUrl) {
-  //     fetch(
-  //       `https://newsapi.org/v2/everything?pageSize=30&from=${fromDate}&to=${toDate}&apiKey=2bd37b6cc3c54f58bbe5401f25169824`
-  //     )
-  //       .then(response => {
-  //         return response.json();
-  //       })
-  //       .then(resp => {
-  //         console.log(resp);
-  //         const headlines = resp.articles;
-  //         this.setState({
-  //           headlines: headlines
-  //         });
-  //       });
-  //   }
-  //   if (keywords && domainUrl && !toDate && !fromDate) {
-  //     fetch(
-  //       `https://newsapi.org/v2/everything?pageSize=30&domains=${domainUrl}&q="${keywords}"&apiKey=2bd37b6cc3c54f58bbe5401f25169824`
-  //     )
-  //       .then(response => {
-  //         return response.json();
-  //       })
-  //       .then(resp => {
-  //         console.log(resp);
-  //         const headlines = resp.articles;
-  //         this.setState({
-  //           headlines: headlines
-  //         });
-  //       });
-  //   }
-  //   if (keywords && toDate && domainUrl && !fromDate) {
-  //     fetch(
-  //       `https://newsapi.org/v2/everything?pageSize=30&domains=${domainUrl}&q="${keywords}"&to=${toDate}&apiKey=2bd37b6cc3c54f58bbe5401f25169824`
-  //     )
-  //       .then(response => {
-  //         return response.json();
-  //       })
-  //       .then(resp => {
-  //         console.log(resp);
-  //         const headlines = resp.articles;
-  //         this.setState({
-  //           headlines: headlines
-  //         });
-  //       });
-  //   }
-  //   if (keywords && toDate && !fromDate && !domainUrl) {
-  //     fetch(
-  //       `https://newsapi.org/v2/everything?pageSize=30&q="${keywords}"&to=${toDate}&apiKey=2bd37b6cc3c54f58bbe5401f25169824`
-  //     )
-  //       .then(response => {
-  //         return response.json();
-  //       })
-  //       .then(resp => {
-  //         console.log(resp);
-  //         const headlines = resp.articles;
-  //         this.setState({
-  //           headlines: headlines
-  //         });
-  //       });
-  //   }
-  //   if (fromDate && domainUrl && !keywords && !toDate) {
-  //     fetch(
-  //       `https://newsapi.org/v2/everything?pageSize=30&domains=${domainUrl}&from=${fromDate}&to=${fromDate}&apiKey=2bd37b6cc3c54f58bbe5401f25169824`
-  //     )
-  //       .then(response => {
-  //         return response.json();
-  //       })
-  //       .then(resp => {
-  //         console.log(resp);
-  //         const headlines = resp.articles;
-  //         this.setState({
-  //           headlines: headlines
-  //         });
-  //       });
-  //   }
-  //   if (keywords && fromDate && domainUrl && !toDate) {
-  //     fetch(
-  //       `https://newsapi.org/v2/everything?pageSize=30&domains=${domainUrl}&q="${keywords}"&from=${fromDate}&to=${fromDate}&apiKey=2bd37b6cc3c54f58bbe5401f25169824`
-  //     )
-  //       .then(response => {
-  //         return response.json();
-  //       })
-  //       .then(resp => {
-  //         console.log(resp);
-  //         const headlines = resp.articles;
-  //         this.setState({
-  //           headlines: headlines
-  //         });
-  //       });
-  //   }
-  //   if (fromDate && !toDate && !keywords && !domainUrl) {
-  //     fetch(
-  //       `https://newsapi.org/v2/everything?pageSize=30&from=${fromDate}&to=${fromDate}&apiKey=2bd37b6cc3c54f58bbe5401f25169824`
-  //     )
-  //       .then(response => {
-  //         return response.json();
-  //       })
-  //       .then(resp => {
-  //         console.log(resp);
-  //         const headlines = resp.articles;
-  //         this.setState({
-  //           headlines: headlines
-  //         });
-  //       });
-  //   }
-  //   if (toDate && !keywords && !fromDate && !domainUrl) {
-  //     fetch(
-  //       `https://newsapi.org/v2/everything?pageSize=30&to=${toDate}&apiKey=2bd37b6cc3c54f58bbe5401f25169824`
-  //     )
-  //       .then(response => {
-  //         return response.json();
-  //       })
-  //       .then(resp => {
-  //         console.log(resp);
-  //         const headlines = resp.articles;
-  //         this.setState({
-  //           headlines: headlines
-  //         });
-  //       });
-  //   }
-  // };
 
   render() {
     const users = this.state.userSearches;
-
     const previousSearches = users.map(userSearch => {
       return (
         <div className="card col-xs-12 col-sm-6 col-md-4">
-        <div className="card-body" id={userSearch}>
-          <h4 className="card-title">Previous Search</h4>
-          <p className="card-text"> {userSearch.userName}</p>
-          <h5>Source: </h5>
-          <p className="card-text prev-search"> {userSearch.source}</p>
-
-          <h5>Keyword(s): </h5>
-          <p className="card-text prev-search"> {userSearch.keywords}</p>
-          <button
-            className="btn btn-outline-danger"
-            id={userSearch.domain}
-            name={userSearch.keywords}
-            type="submit"
-            onClick={this.handleAutoFill}
-          >
-            Use This Search
-          </button>
-        </div>
+          <div className="card-body" id={userSearch}>
+            <h4 className="card-title">Previous Search</h4>
+            <p className="card-text"> {userSearch.userName}</p>
+            <h5>Source: </h5>
+            <p className="card-text prev-search"> {userSearch.source}</p>
+            <h5>Keyword(s): </h5>
+            <p className="card-text prev-search"> {userSearch.keywords}</p>
+            <button
+              className="btn btn-outline-danger"
+              id={userSearch.domain}
+              name={userSearch.keywords}
+              type="submit"
+              onClick={this.handleAutoFill}
+            >
+              Use This Search
+            </button>
+          </div>
         </div>
       );
     });
@@ -437,7 +186,6 @@ class Header extends Component {
             <form>
               <div className="form-group">
                 <label htmlFor="search">User Name</label>
-
                 <input
                   type="text"
                   className="form-control"
@@ -447,7 +195,10 @@ class Header extends Component {
                   placeholder="Ex: JohnD"
                   onChange={this.handleChange}
                 />
-                <p>Get Previous Search Here OR Select & Search Your Source & Keywords Below</p>
+                <p>
+                  Get Previous Search Here OR Select & Search Your Source &
+                  Keywords Below
+                </p>
                 <button
                   className="btn btn-outline-warning"
                   name="userName"
@@ -459,10 +210,7 @@ class Header extends Component {
                 </button>
               </div>
             </form>
-            <div className="row">
-            
-              {previousSearches}
-            </div>
+            <div className="row">{previousSearches}</div>
           </div>
         ) : null}
         <header className="App-header">
@@ -498,7 +246,6 @@ class Header extends Component {
                   </div>
                 </li>
               </ul>
-
               <button
                 id="submit-button"
                 type="submit"
@@ -516,6 +263,3 @@ class Header extends Component {
   }
 }
 export default Header;
-
-
-// //"http://localhost:3000/api/v1/userinput"
