@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 
-import Main from '../Main';
-import SourcesDropDown from '../SourcesDropDown';
-import FromDateDropDown from '../FromDateDropDown';
-import ToDateDropDown from '../ToDateDropDown';
+import Main from '../Main/index';
+import SourcesDropDown from '../SourcesDropDown/index';
+import FromDateDropDown from '../FromDateDropDown/index';
+import ToDateDropDown from '../ToDateDropDown/index';
+// import SearchesCards from "../SearchesCards/index";
 
 export default class Header extends Component {
     constructor(props) {
@@ -44,21 +45,15 @@ export default class Header extends Component {
     getUser(event) {
         event.preventDefault();
         const user = this.state.userName;
-        console.log(user);
 
-        fetch(`http://localhost:3000/api/v1/userinput/${user}`)
+        fetch(`https://jb-news-api.herokuapp.com/api/v1/userinput/${user}`)
             .then(response => {
                 return response.json();
             })
             .then(resp => {
-                console.log(resp);
-                // const autoFillState = resp;
                 this.setState({
                     userSearches: resp.user
-                    // sourceData: resp.user.source,
-                    // keywordsData: resp.user.keywords
                 });
-                console.log(this.state.userSearches);
             });
     }
 
@@ -66,11 +61,11 @@ export default class Header extends Component {
         event.preventDefault();
         const domainUrl = event.target.id;
         const keywords = event.target.name;
-        this.getSpecifiedSearch({ domainUrl, keywords });
         this.setState({
             sourceData: domainUrl,
             keywordsData: keywords
         });
+        this.getSpecifiedSearch({ domainUrl, keywords });
     };
 
     componentDidMount() {
@@ -85,7 +80,6 @@ export default class Header extends Component {
         Promise.all([fetchSources, fetchHeadlines]).then(
             ([sourcesResp, headlinesResp]) => {
                 const sources = sourcesResp.sources;
-                console.log(sources);
                 const headlines = headlinesResp.articles;
                 this.setState({ sources, headlines });
             }
@@ -101,9 +95,7 @@ export default class Header extends Component {
             [name]: value
         });
         this.isbeingfilled();
-        console.log(this.state.sourceData);
     }
-
     handleSubmit(event) {
         event.preventDefault();
         const keywords = event.target['keywords'].value;
@@ -121,17 +113,20 @@ export default class Header extends Component {
             domain: domainUrl,
             keywords: keywords
         };
-
-        if (this.state.userBeingFilled) {
-            fetch('http://localhost:3000/api/v1/userinput', {
+        if (this.state.userBeingFilled === true) {
+            fetch('https://jb-news-api.herokuapp.com/api/v1/userinput', {
                 method: 'POST',
                 headers: new Headers({
                     'content-type': 'application/json'
                 }),
                 body: JSON.stringify(formData)
             })
-                .then(resp => resp.json())
-                .then(resp => console.log(resp));
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(response) {
+                    console.log(response);
+                });
         }
 
         this.getSpecifiedSearch({
@@ -159,17 +154,8 @@ export default class Header extends Component {
                 });
             });
     };
-    // handleUserSavedSearch = user => {
-    //   // 1) Get current user
-    //   // 2) Get previous search data from user,
-    //   //  which returns { keywords, fromDate, toDate, domainUrl }
-    //   this.getSpecifiedSearch({ keywords, domainUrl });
-    // };
 
     render() {
-        const { headlines, sources } = this.props;
-
-        console.log(this.state);
         const users = this.state.userSearches;
 
         const previousSearches = users.map(userSearch => {
@@ -211,17 +197,14 @@ export default class Header extends Component {
                     type="submit"
                     onClick={this.previewClick}
                 >
-                    Enter User Name to Save Search or Retrieve Previous
-                    Search(es)
+                    Login or Create Account
                 </button>
 
                 {this.state.showPreview ? (
                     <div className="card text-white bg-primary mb-3">
                         <form>
                             <div className="form-group">
-                                <label htmlFor="search">
-                                    User Name To Save/Find
-                                </label>
+                                <label htmlFor="search">User Name</label>
 
                                 <input
                                     type="text"
@@ -232,6 +215,10 @@ export default class Header extends Component {
                                     placeholder="Ex: JohnD"
                                     onChange={this.handleChange}
                                 />
+                                <p>
+                                    Get Previous Search Here OR Select & Search
+                                    Your Source & Keywords Below
+                                </p>
                                 <button
                                     className="btn btn-outline-warning"
                                     name="userName"
