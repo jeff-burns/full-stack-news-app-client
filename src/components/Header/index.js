@@ -45,21 +45,18 @@ class Header extends Component {
   getUser(event) {
     event.preventDefault();
     const user = this.state.userName;
-    console.log(user);
 
-    fetch(`http://localhost:3000/api/v1/userinput/${user}`)
+    fetch(`https://jb-news-api.herokuapp.com/api/v1/userinput/${user}`)
       .then(response => {
         return response.json();
       })
       .then(resp => {
-        console.log(resp);
-        // const autoFillState = resp;
+       
         this.setState({
           userSearches: resp.user
           // sourceData: resp.user.source,
           // keywordsData: resp.user.keywords
         });
-        console.log(this.state.userSearches);
       });
   }
 
@@ -90,7 +87,6 @@ class Header extends Component {
     Promise.all([fetchSources, fetchHeadlines]).then(
       ([sourcesResp, headlinesResp]) => {
         const sources = sourcesResp.sources;
-        console.log(sources)
         const headlines = headlinesResp.articles;
         this.setState({ sources, headlines });
       }
@@ -106,7 +102,6 @@ class Header extends Component {
       [name]: value
     });
     this.isbeingfilled();
-    console.log(this.state.sourceData);
   }
   handleSubmit(event) {
     event.preventDefault();
@@ -117,7 +112,6 @@ class Header extends Component {
     const domainUrl = source
       .replace(/^(?:https?:\/\/)?(?:www\.)?/i, "")
       .split("/")[0];
-      console.log(domainUrl)
     
     const user = this.state.userName
     const formData = {
@@ -126,9 +120,8 @@ class Header extends Component {
       domain: domainUrl,
       keywords: keywords
     }
-    console.log(formData)
     if (this.state.userBeingFilled === true) {
-        fetch("http://localhost:3000/api/v1/userinput", {
+        fetch("https://jb-news-api.herokuapp.com/api/v1/userinput", {
           method: "POST",
           headers: new Headers({
             "content-type": "application/json"
@@ -401,7 +394,6 @@ class Header extends Component {
   // };
 
   render() {
-    console.log(this.state);
     const users = this.state.userSearches;
 
     const previousSearches = users.map(userSearch => {
@@ -524,3 +516,6 @@ class Header extends Component {
   }
 }
 export default Header;
+
+
+// //"http://localhost:3000/api/v1/userinput"
