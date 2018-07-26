@@ -437,14 +437,14 @@ class Header extends Component {
           type="submit"
           onClick={this.previewClick}
         >
-          Enter User Name to Save Search or Retrieve Previous Search(es)
+          Login or Create Account
         </button>
 
         {this.state.showPreview ? (
           <div className="card text-white bg-primary mb-3">
             <form>
               <div className="form-group">
-                <label htmlFor="search">User Name To Save/Find</label>
+                <label htmlFor="search">User Name</label>
 
                 <input
                   type="text"
@@ -455,6 +455,7 @@ class Header extends Component {
                   placeholder="Ex: JohnD"
                   onChange={this.handleChange}
                 />
+                <p>Get Previous Search Here OR Select & Search Your Source & Keywords Below</p>
                 <button
                   className="btn btn-outline-warning"
                   name="userName"
