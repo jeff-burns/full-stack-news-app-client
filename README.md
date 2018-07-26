@@ -11,3 +11,5 @@
 * React.js, HTML5, CSS3, JavaScript, Node.js, Express.js, Knex.js, PostgreSQL, Heroku, Bootswatch, Bootstrap, Moment.js, Google News API.
 
 Link to [Server Repo](https://github.com/jeff-burns/full-stack-news-app-server)
+
+Link to [app](https://newsource-client.now.sh)
